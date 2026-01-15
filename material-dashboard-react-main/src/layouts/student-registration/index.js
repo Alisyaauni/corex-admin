@@ -133,16 +133,16 @@ function StudentRegistration() {
               <Grid item xs={12} md={6}>
                 <MDInput
                   type="date"
-                  name="dob" // Must match your state key
-                  label="Date of Birt"
+                  name="dob" // <--- ADD THIS
+                  label="Date of Birth"
+                  value={student.dob} // <--- ADD THIS
+                  onChange={handleInput} // <--- ADD THIS
                   variant="outlined"
                   fullWidth
+                  required // <--- Highly recommended
                   InputLabelProps={{ shrink: true }}
-                  value={formData.dob} // Sends the date to the input
-                  onChange={handleInput} // Updates your state
                 />
               </Grid>
-
               {/* Course Selection Dropdown */}
               <Grid item xs={12} md={6}>
                 <MDInput
