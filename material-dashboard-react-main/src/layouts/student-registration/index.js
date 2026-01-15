@@ -132,7 +132,6 @@ function StudentRegistration() {
               </Grid>
               <Grid item xs={12} md={6}>
                 <MDInput
-                  type="date"
                   name="dob" // This must match the key in your formData state
                   label="Date of Birth"
                   variant="outlined"
