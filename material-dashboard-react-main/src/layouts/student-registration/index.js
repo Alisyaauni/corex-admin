@@ -132,12 +132,14 @@ function StudentRegistration() {
               </Grid>
               <Grid item xs={12} md={6}>
                 <MDInput
-                  name="dob"
                   type="date"
+                  name="dob" // This must match the key in your formData state
                   label="Date of Birth"
-                  variant="outlined" // Outlined often handles native date icons better
+                  variant="outlined"
                   fullWidth
                   InputLabelProps={{ shrink: true }}
+                  value={formData.dob} // This connects the input to your state
+                  onChange={handleInput} // This function updates the state when you pick a date
                 />
               </Grid>
 
