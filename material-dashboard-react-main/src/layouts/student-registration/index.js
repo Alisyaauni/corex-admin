@@ -132,14 +132,14 @@ function StudentRegistration() {
               </Grid>
               <Grid item xs={12} md={6}>
                 <MDInput
-                  name="dob"
-                  type="date" // This ensures the browser sends YYYY-MM-DD
-                  label="Date of Birth"
-                  value={student.dob}
-                  onChange={handleInput}
+                  type="date"
+                  name="dob" // Must match your state key
+                  label="Date of Birt"
+                  variant="outlined"
                   fullWidth
-                  required
-                  InputLabelProps={{ shrink: true }} // Keeps the label from overlapping the date picker
+                  InputLabelProps={{ shrink: true }}
+                  value={formData.dob} // Sends the date to the input
+                  onChange={handleInput} // Updates your state
                 />
               </Grid>
 
