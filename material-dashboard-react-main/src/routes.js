@@ -39,7 +39,6 @@ Coded by www.creative-tim.com
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 import SignIn from "layouts/authentication/sign-in";
-import SignUp from "layouts/authentication/sign-up";
 import StudentRegistration from "layouts/student-registration";
 import Tutor from "layouts/Tutor";
 import PaymentTable from "layouts/payment-status";
