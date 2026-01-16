@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "supabaseClient";
+import { useNavigate } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -24,6 +25,7 @@ import * as XLSX from "xlsx";
 function StudentTable() {
   const [dbData, setDbData] = useState([]);
   const [rows, setRows] = useState([]);
+  const navigate = useNavigate();
 
   // Modal States
   const [open, setOpen] = useState(false);
@@ -39,6 +41,19 @@ function StudentTable() {
       formatRows(data);
     }
   };
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) {
+        // If no admin is logged in, kick them back to the login page
+        navigate("/authentication/sign-in");
+      }
+    };
+    checkUser();
+  }, [navigate]);
 
   useEffect(() => {
     getStudents();
