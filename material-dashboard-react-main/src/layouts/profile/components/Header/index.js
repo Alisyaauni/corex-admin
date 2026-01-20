@@ -35,10 +35,11 @@ import MDAvatar from "components/MDAvatar";
 import breakpoints from "assets/theme/base/breakpoints";
 
 // Images
-import burceMars from "assets/images/bruce-mars.jpg";
+import Zulkiflipic from "assets/images/Zulkifli Image.jpeg";
+import Azimpic from "assets/images/Azim Image.jpeg";
 import backgroundImage from "assets/images/bg-profile.jpeg";
 
-function Header({ children }) {
+function Header({ profile1, profile2 }) {
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
 
@@ -95,7 +96,7 @@ function Header({ children }) {
       >
         <Grid container spacing={3} alignItems="center">
           <Grid item>
-            <MDAvatar src={burceMars} alt="profile-image" size="xl" shadow="sm" />
+            <MDAvatar src={Zulkiflipic} alt="profile-image" size="xl" shadow="sm" />
           </Grid>
           <Grid item>
             <MDBox height="100%" mt={0.5} lineHeight={1}>
@@ -108,7 +109,7 @@ function Header({ children }) {
             </MDBox>
           </Grid>
         </Grid>
-        {children}
+        {profile1}
       </Card>
       <MDBox
         display="flex"
@@ -128,7 +129,7 @@ function Header({ children }) {
       >
         <Grid container spacing={3} alignItems="center">
           <Grid item>
-            <MDAvatar src={burceMars} alt="profile-image" size="xl" shadow="sm" />
+            <MDAvatar src={Azimpic} alt="profile-image" size="xl" shadow="sm" />
           </Grid>
           <Grid item>
             <MDBox height="100%" mt={0.5} lineHeight={1}>
@@ -141,7 +142,7 @@ function Header({ children }) {
             </MDBox>
           </Grid>
         </Grid>
-        {children}
+        {profile2}
       </Card>
     </MDBox>
   );
@@ -149,12 +150,14 @@ function Header({ children }) {
 
 // Setting default props for the Header
 Header.defaultProps = {
-  children: "",
+  profile1: "",
+  profile2: "",
 };
 
 // Typechecking props for the Header
 Header.propTypes = {
-  children: PropTypes.node,
+  profile1: PropTypes.node,
+  profile2: PropTypes.node,
 };
 
 export default Header;

@@ -42,45 +42,42 @@ function Overview() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <MDBox mb={2} />
-      <Header>
-        <MDBox mt={5} mb={3}>
-          <Grid container spacing={1}>
-            <Grid item xs={12} md={12}>
-              <ProfileInfoCard
-                title="profile information"
-                description="Hi, I’m Alec Thompson, Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality)."
-                info={{
-                  fullName: "Alec M. Thompson",
-                  mobile: "(44) 123 1234 123",
-                  email: "alecthompson@mail.com",
-                  location: "USA",
-                  available: "Available",
-                }}
-                social={[
-                  {
-                    link: "https://www.facebook.com/CreativeTim/",
-                    icon: <FacebookIcon />,
-                    color: "facebook",
-                  },
-                  {
-                    link: "https://twitter.com/creativetim",
-                    icon: <TwitterIcon />,
-                    color: "twitter",
-                  },
-                  {
-                    link: "https://www.instagram.com/creativetimofficial/",
-                    icon: <InstagramIcon />,
-                    color: "instagram",
-                  },
-                ]}
-                action={{ route: "", tooltip: "Edit Profile" }}
-                shadow={false}
-              />
-            </Grid>
-          </Grid>
-        </MDBox>
-      </Header>
+      <Header
+        profile1={
+          <MDBox mt={5} mb={3}>
+            <ProfileInfoCard
+              title="profile information"
+              description="Founder of the company and lead tutor. Responsible for creating the training programs, teaching students, and providing guidance and mentorship throughout the learning process."
+              info={{
+                fullName: "Zulkifli Bin Mohammad",
+                mobile: "012-6121327",
+                email: "zulkifli.m38@gmail.com",
+                location: "Malaysia",
+              }}
+              social={[{ link: "#", icon: <FacebookIcon />, color: "facebook" }]}
+              action={{ route: "", tooltip: "Edit Profile" }}
+              shadow={false}
+            />
+          </MDBox>
+        }
+        profile2={
+          <MDBox mt={5} mb={3}>
+            <ProfileInfoCard
+              title="profile information"
+              description="Assistant tutor who supports teaching activities and helps in delivering lessons, guiding students, and ensuring smooth training sessions."
+              info={{
+                fullName: "Mohd Azim Hafizi Bin Zulkifli",
+                mobile: "012-6041327",
+                email: "azimhafiz0101@gmail.com",
+                location: "Malaysia",
+              }}
+              social={[{ link: "#", icon: <FacebookIcon />, color: "facebook" }]}
+              action={{ route: "", tooltip: "Edit Profile" }}
+              shadow={false}
+            />
+          </MDBox>
+        }
+      />
       <Footer />
     </DashboardLayout>
   );
