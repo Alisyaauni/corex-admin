@@ -75,11 +75,11 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Payments",
-    key: "payments",
-    icon: <Icon fontSize="small">receipt_long</Icon>,
-    route: "/payment-status",
-    component: <PaymentTable />, // Ensure you import PaymentTable at the top
+    name: "Sessions",
+    key: "sessions",
+    icon: <Icon fontSize="small">calendar_month</Icon>,
+    route: "/sessions",
+    component: <Sessions />,
   },
   {
     type: "collapse",
@@ -91,11 +91,11 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Sessions",
-    key: "sessions",
-    icon: <Icon fontSize="small">calendar_month</Icon>,
-    route: "/sessions",
-    component: <Sessions />,
+    name: "Payments",
+    key: "payments",
+    icon: <Icon fontSize="small">receipt_long</Icon>,
+    route: "/payment-status",
+    component: <PaymentTable />, // Ensure you import PaymentTable at the top
   },
   {
     type: "collapse",
