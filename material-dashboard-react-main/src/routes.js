@@ -43,6 +43,7 @@ import StudentRegistration from "layouts/student-registration";
 import Tutor from "layouts/Tutor";
 import PaymentTable from "layouts/payment-status";
 import Certificates from "layouts/certificates";
+import Sessions from "layouts/sessions";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -98,7 +99,15 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Sign In",
+    name: "Sessions",
+    key: "sessions",
+    icon: <Icon fontSize="small">calendar_month</Icon>,
+    route: "/sessions",
+    component: <Sessions />,
+  },
+  {
+    type: "collapse",
+    name: "Sign Out",
     key: "sign-in",
     icon: <Icon fontSize="small">login</Icon>,
     route: "/authentication/sign-in",

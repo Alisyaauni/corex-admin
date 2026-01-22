@@ -18,8 +18,8 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 function StudentRegistration() {
   const [loading, setLoading] = useState(false);
-  const [courses, setCourses] = useState([]); // To store data from Course table
-  const [sessions, setSessions] = useState([]); // To store data from Calendar table
+  const [courses, setCourses] = useState([]);
+  const [sessions, setSessions] = useState([]);
 
   const [student, setStudent] = useState({
     name: "",
@@ -34,7 +34,6 @@ function StudentRegistration() {
     selectedSession: "",
   });
 
-  // FETCH DATA ON LOAD (Just like a SELECT * query)
   useEffect(() => {
     async function fetchData() {
       const { data: courseData } = await supabase.from("Course").select("*");
@@ -46,7 +45,14 @@ function StudentRegistration() {
   }, []);
 
   const handleInput = (e) => {
-    setStudent({ ...student, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    // LOGIC: If the user changes the course, reset the selected session
+    if (name === "selectedCourse") {
+      setStudent({ ...student, [name]: value, selectedSession: "" });
+    } else {
+      setStudent({ ...student, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -63,7 +69,7 @@ function StudentRegistration() {
         mobile: student.mobile,
         email: student.email,
         address: student.address,
-        course_enrolled: student.selectedCourse, // Store the choice
+        course_enrolled: student.selectedCourse,
         session_date: student.selectedSession,
       },
     ]);
@@ -107,6 +113,7 @@ function StudentRegistration() {
               Course Enrollment Form
             </MDTypography>
           </MDBox>
+
           <MDBox p={3} component="form" onSubmit={handleSubmit}>
             <Grid container spacing={3}>
               {/* Personal Details */}
@@ -133,20 +140,20 @@ function StudentRegistration() {
               <Grid item xs={12} md={6}>
                 <MDInput
                   type="date"
-                  name="dob" // <--- ADD THIS
+                  name="dob"
                   label="Date of Birth"
-                  value={student.dob} // <--- ADD THIS
-                  onChange={handleInput} // <--- ADD THIS
-                  variant="outlined"
+                  value={student.dob}
+                  onChange={handleInput}
                   fullWidth
-                  required // <--- Highly recommended
+                  required
                   InputLabelProps={{ shrink: true }}
                 />
               </Grid>
+
               {/* Course Selection Dropdown */}
               <Grid item xs={12} md={6}>
                 <MDInput
-                  select // This makes it a dropdown
+                  select
                   name="selectedCourse"
                   label="Select Course"
                   value={student.selectedCourse}
@@ -158,15 +165,11 @@ function StudentRegistration() {
                     sx: { padding: "12px 0" }, // Adjusts internal spacing
                   }}
                 >
-                  {courses.length > 0 ? (
-                    courses.map((course) => (
-                      <MenuItem key={course.id} value={course.course_name}>
-                        {course.course_name}
-                      </MenuItem>
-                    ))
-                  ) : (
-                    <MenuItem disabled>No courses available</MenuItem>
-                  )}
+                  {courses.map((course) => (
+                    <MenuItem key={course.id} value={course.course_name}>
+                      {course.course_name}
+                    </MenuItem>
+                  ))}
                 </MDInput>
               </Grid>
 
@@ -182,33 +185,23 @@ function StudentRegistration() {
                   required
                   SelectProps={{
                     displayEmpty: true,
-                    sx: { padding: "12px 0" },
+                    sx: { padding: "12px 0" }, // Adjusts internal spacing
                   }}
+                  disabled={!student.selectedCourse}
                 >
-                  {/* We filter the sessions to only show those matching the selected course title */}
-                  {sessions.filter(
-                    (s) => !student.selectedCourse || s.course_title === student.selectedCourse
-                  ).length > 0 ? (
-                    sessions
-                      .filter(
-                        (s) => !student.selectedCourse || s.course_title === student.selectedCourse
-                      )
-                      .map((session) => (
-                        <MenuItem key={session.id} value={`${session.date} ${session.time}`}>
-                          {session.date} at {session.time}
-                        </MenuItem>
-                      ))
-                  ) : (
-                    <MenuItem disabled>
-                      {student.selectedCourse
-                        ? "No sessions for this course"
-                        : "Select a course first"}
-                    </MenuItem>
-                  )}
+                  {sessions
+                    .filter((s) => s.course_title === student.selectedCourse)
+                    .map((session) => (
+                      <MenuItem key={session.id} value={`${session.date} ${session.time}`}>
+                        {session.date} at {session.time}
+                      </MenuItem>
+                    ))}
+                  {sessions.filter((s) => s.course_title === student.selectedCourse).length ===
+                    0 && <MenuItem disabled>No sessions found for this course</MenuItem>}
                 </MDInput>
               </Grid>
 
-              {/* Rest of the fields */}
+              {/* Contact & Address */}
               <Grid item xs={12} md={6}>
                 <MDInput
                   name="mobile"
