@@ -75,14 +75,6 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Tutor",
-    key: "Tutor",
-    icon: <Icon fontSize="small">person_add</Icon>, // Use a Material Icon name
-    route: "/Tutor",
-    component: <Tutor />,
-  },
-  {
-    type: "collapse",
     name: "Payments",
     key: "payments",
     icon: <Icon fontSize="small">receipt_long</Icon>,
@@ -93,7 +85,7 @@ const routes = [
     type: "collapse",
     name: "Certificates",
     key: "certificates",
-    icon: <Icon fontSize="small">table_view</Icon>,
+    icon: <Icon fontSize="small">workspace_premium</Icon>,
     route: "/certificates",
     component: <Certificates />,
   },
@@ -104,6 +96,14 @@ const routes = [
     icon: <Icon fontSize="small">calendar_month</Icon>,
     route: "/sessions",
     component: <Sessions />,
+  },
+  {
+    type: "collapse",
+    name: "Tutor",
+    key: "Tutor",
+    icon: <Icon fontSize="small">person_add</Icon>, // Use a Material Icon name
+    route: "/Tutor",
+    component: <Tutor />,
   },
   {
     type: "collapse",
