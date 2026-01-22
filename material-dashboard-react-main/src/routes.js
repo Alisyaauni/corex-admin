@@ -101,7 +101,7 @@ const routes = [
     type: "collapse",
     name: "Tutor",
     key: "Tutor",
-    icon: <Icon fontSize="small">person_add</Icon>, // Use a Material Icon name
+    icon: <Icon fontSize="small">school</Icon>, // Use a Material Icon name
     route: "/Tutor",
     component: <Tutor />,
   },
