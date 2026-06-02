@@ -73,14 +73,14 @@ const routes = [
     route: "/tables",
     component: <Tables />,
   },
-  {
+  /*{
     type: "collapse",
     name: "Sessions",
     key: "sessions",
     icon: <Icon fontSize="small">calendar_month</Icon>,
     route: "/sessions",
     component: <Sessions />,
-  },
+  },*/
   {
     type: "collapse",
     name: "Certificates",

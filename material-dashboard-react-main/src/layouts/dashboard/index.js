@@ -102,13 +102,14 @@ function StudentTable() {
     }
   };
 
-  // --- FORMAT DATA FOR TABLE ---
+  // --- FORMAT DATA FOR TABLE --- Update Accessor here, follows the column name in database
   const formatRows = (data) => {
     const formatted = data.map((item) => ({
       name: item.name,
       email: item.email,
       course: item.course_enrolled,
       mobile: item.mobile,
+      ic: item.ic_passport,
       action: (
         <MDBox display="flex" alignItems="center">
           <Tooltip title="Edit Student">
@@ -134,12 +135,13 @@ function StudentTable() {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Students");
     XLSX.writeFile(workbook, "Student_Report.xlsx");
   };
-
+  //----The Table Format---
   const columns = [
     { Header: "Name", accessor: "name", width: "25%" },
     { Header: "Email", accessor: "email", width: "25%" },
     { Header: "Course", accessor: "course", width: "20%" },
     { Header: "Mobile", accessor: "mobile", width: "15%" },
+    { Header: "IC/Passport", accessor: "ic", width: "15%" },
     { Header: "Actions", accessor: "action", align: "right" },
   ];
 
@@ -164,6 +166,16 @@ function StudentTable() {
           <MDTypography variant="h5" mb={3}>
             Edit Student Info
           </MDTypography>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <MDInput
+                label="Full Name"
+                fullWidth
+                value={currentStudent?.name || ""}
+                onChange={(e) => setCurrentStudent({ ...currentStudent, name: e.target.value })}
+              />
+            </Grid>
+          </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <MDInput

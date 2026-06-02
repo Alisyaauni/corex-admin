@@ -176,18 +176,14 @@ function StudentRegistration() {
               {/* Session Selection Dropdown */}
               <Grid item xs={12} md={6}>
                 <MDInput
-                  select
+                  type="date"
                   name="selectedSession"
-                  label="Available Sessions"
+                  label="Date of Session"
                   value={student.selectedSession}
                   onChange={handleInput}
                   fullWidth
                   required
-                  SelectProps={{
-                    displayEmpty: true,
-                    sx: { padding: "12px 0" }, // Adjusts internal spacing
-                  }}
-                  disabled={!student.selectedCourse}
+                  InputLabelProps={{ shrink: true }}
                 >
                   {sessions
                     .filter((s) => s.course_title === student.selectedCourse)
