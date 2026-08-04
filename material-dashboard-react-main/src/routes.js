@@ -39,11 +39,11 @@ Coded by www.creative-tim.com
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 import SignIn from "layouts/authentication/sign-in";
+import SignUp from "layouts/authentication/sign-up";
 import StudentRegistration from "layouts/student-registration";
 import Tutor from "layouts/Tutor";
 import PaymentTable from "layouts/payment-status";
 import Certificates from "layouts/certificates";
-import Sessions from "layouts/sessions";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -51,7 +51,7 @@ import Icon from "@mui/material/Icon";
 const routes = [
   {
     type: "collapse",
-    name: "Student Management",
+    name: "Dashboard",
     key: "dashboard",
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/dashboard",
@@ -73,21 +73,13 @@ const routes = [
     route: "/tables",
     component: <Tables />,
   },
-  /*{
-    type: "collapse",
-    name: "Sessions",
-    key: "sessions",
-    icon: <Icon fontSize="small">calendar_month</Icon>,
-    route: "/sessions",
-    component: <Sessions />,
-  },*/
   {
     type: "collapse",
-    name: "Certificates",
-    key: "certificates",
-    icon: <Icon fontSize="small">workspace_premium</Icon>,
-    route: "/certificates",
-    component: <Certificates />,
+    name: "Tutor",
+    key: "Tutor",
+    icon: <Icon fontSize="small">person_add</Icon>, // Use a Material Icon name
+    route: "/Tutor",
+    component: <Tutor />,
   },
   {
     type: "collapse",
@@ -99,19 +91,27 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Tutor",
-    key: "Tutor",
-    icon: <Icon fontSize="small">school</Icon>, // Use a Material Icon name
-    route: "/Tutor",
-    component: <Tutor />,
+    name: "Certificates",
+    key: "certificates",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/certificates",
+    component: <Certificates />,
   },
   {
     type: "collapse",
-    name: "Sign Out",
+    name: "Sign In",
     key: "sign-in",
     icon: <Icon fontSize="small">login</Icon>,
     route: "/authentication/sign-in",
     component: <SignIn />,
+  },
+  {
+    type: "collapse",
+    name: "Sign Up",
+    key: "sign-up",
+    icon: <Icon fontSize="small">assignment</Icon>,
+    route: "/authentication/sign-up",
+    component: <SignUp />,
   },
 ];
 

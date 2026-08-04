@@ -1,148 +1,89 @@
-import { useState, useEffect } from "react";
-import { supabase } from "supabaseClient";
-import { useNavigate } from "react-router-dom";
+/**
+=========================================================
+* Material Dashboard 2 React - v2.2.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/material-dashboard-react
+* Copyright 2023 Creative Tim (https://www.creative-tim.com)
+
+Coded by www.creative-tim.com
+
+ =========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+*/
 
 // @mui material components
-import Card from "@mui/material/Card";
-import Icon from "@mui/material/Icon";
-import Tooltip from "@mui/material/Tooltip";
-import IconButton from "@mui/material/IconButton";
-import Dialog from "@mui/material/Dialog";
 import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDButton from "components/MDButton";
-import MDInput from "components/MDInput";
 
-// Layout components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+// Material Dashboard 2 React example components
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import Icon from "@mui/material/Icon";
+import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import { useState, useEffect } from "react";
+import { supabase } from "supabaseClient";
+import Card from "@mui/material/Card";
+import MDTypography from "components/MDTypography";
 import DataTable from "examples/Tables/DataTable";
-import * as XLSX from "xlsx";
+import MDButton from "components/MDButton";
+import * as XLSX from "xlsx"; // Import the Excel library
+
+// Dashboard components
 
 function StudentTable() {
   const [dbData, setDbData] = useState([]);
   const [rows, setRows] = useState([]);
-  const navigate = useNavigate();
-
-  // Modal States
-  const [open, setOpen] = useState(false);
-  const [currentStudent, setCurrentStudent] = useState(null);
-
-  // --- FETCH DATA ---
-  const getStudents = async () => {
-    const { data, error } = await supabase.from("Student").select("*");
-    if (error) {
-      console.error("Error fetching:", error.message);
-    } else if (data) {
-      setDbData(data);
-      formatRows(data);
-    }
-  };
 
   useEffect(() => {
-    const checkUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (!user) {
-        // If no admin is logged in, kick them back to the login page
-        navigate("/authentication/sign-in");
+    async function getStudents() {
+      const { data, error } = await supabase.from("Student").select("*");
+
+      if (error) {
+        console.error("Error fetching:", error.message);
+      } else if (data) {
+        setDbData(data); // Save raw data for Excel export
+
+        // Format for the UI Table
+        const formattedRows = data.map((item) => ({
+          name: item.name,
+          email: item.email,
+          ic: item.ic_passport,
+          course: item.course_enrolled,
+          session: item.session_date,
+          mobile: item.mobile,
+        }));
+        setRows(formattedRows);
       }
-    };
-    checkUser();
-  }, [navigate]);
-
-  useEffect(() => {
+    }
     getStudents();
   }, []);
 
-  // --- DELETE LOGIC ---
-  const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this student record?")) {
-      const { error } = await supabase.from("Student").delete().eq("id", id);
-      if (error) alert(error.message);
-      else getStudents();
-    }
-  };
-
-  // --- EDIT MODAL LOGIC ---
-  const handleEditOpen = (student) => {
-    setCurrentStudent(student);
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setCurrentStudent(null);
-  };
-
-  const handleUpdate = async () => {
-    // Use course_enrolled specifically to match your Supabase column name
-    const { error } = await supabase
-      .from("Student")
-      .update({
-        name: currentStudent.name,
-        email: currentStudent.email,
-        mobile: currentStudent.mobile,
-        // Ensure we are sending the data back to the correct column
-        course_enrolled: currentStudent.course || currentStudent.course_enrolled,
-      })
-      .eq("id", currentStudent.id);
-
-    if (error) {
-      alert("Update failed: " + error.message);
-    } else {
-      setOpen(false);
-      // Refreshing the data is the key to updating the table UI
-      await getStudents();
-      alert("Student updated successfully!");
-    }
-  };
-
-  // --- FORMAT DATA FOR TABLE --- Update Accessor here, follows the column name in database
-  const formatRows = (data) => {
-    const formatted = data.map((item) => ({
-      name: item.name,
-      email: item.email,
-      course: item.course_enrolled,
-      mobile: item.mobile,
-      ic: item.ic_passport,
-      action: (
-        <MDBox display="flex" alignItems="center">
-          <Tooltip title="Edit Student">
-            <IconButton color="info" onClick={() => handleEditOpen(item)}>
-              <Icon>edit</Icon>
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Delete Student">
-            <IconButton color="error" onClick={() => handleDelete(item.id)}>
-              <Icon>delete</Icon>
-            </IconButton>
-          </Tooltip>
-        </MDBox>
-      ),
-    }));
-    setRows(formatted);
-  };
-
-  // --- EXPORT TO EXCEL ---
+  // --- EXPORT FUNCTION ---
   const downloadExcel = () => {
+    if (dbData.length === 0) {
+      alert("No data available to export");
+      return;
+    }
+
+    // 1. Convert JSON data to a worksheet
     const worksheet = XLSX.utils.json_to_sheet(dbData);
+    // 2. Create a new workbook
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Students");
-    XLSX.writeFile(workbook, "Student_Report.xlsx");
+    // 3. Append the sheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Registered Students");
+    // 4. Download the file
+    XLSX.writeFile(workbook, "Student_Registration_Report.xlsx");
   };
-  //----The Table Format---
+
+  // Columns configuration for the DataTable component
   const columns = [
     { Header: "Name", accessor: "name", width: "25%" },
     { Header: "Email", accessor: "email", width: "25%" },
     { Header: "Course", accessor: "course", width: "20%" },
     { Header: "Mobile", accessor: "mobile", width: "15%" },
-    { Header: "IC/Passport", accessor: "ic", width: "15%" },
-    { Header: "Actions", accessor: "action", align: "right" },
   ];
 
   return (
@@ -151,67 +92,29 @@ function StudentTable() {
       <MDBox pt={6} pb={3}>
         <Card>
           <MDBox p={3} display="flex" justifyContent="space-between" alignItems="center">
-            <MDTypography variant="h5">Student Management</MDTypography>
-            <MDButton variant="gradient" color="success" onClick={downloadExcel}>
-              <Icon>download</Icon>&nbsp;Export Excel
+            <MDTypography variant="h5">Student Enrollment List</MDTypography>
+
+            {/* EXCEL BUTTON */}
+            <MDButton
+              variant="gradient"
+              color="success"
+              onClick={downloadExcel}
+              startIcon={<Icon>download</Icon>}
+            >
+              Export to Excel
             </MDButton>
           </MDBox>
-          <DataTable table={{ columns, rows }} isSorted showTotalEntries entriesPerPage />
+          <MDBox>
+            <DataTable
+              table={{ columns, rows }}
+              isSorted={true}
+              entriesPerPage={true}
+              showTotalEntries={true}
+              noEndBorder
+            />
+          </MDBox>
         </Card>
       </MDBox>
-
-      {/* --- EDIT MODAL --- */}
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-        <MDBox p={3}>
-          <MDTypography variant="h5" mb={3}>
-            Edit Student Info
-          </MDTypography>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <MDInput
-                label="Full Name"
-                fullWidth
-                value={currentStudent?.name || ""}
-                onChange={(e) => setCurrentStudent({ ...currentStudent, name: e.target.value })}
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <MDInput
-                label="Full Name"
-                fullWidth
-                value={currentStudent?.name || ""}
-                onChange={(e) => setCurrentStudent({ ...currentStudent, name: e.target.value })}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <MDInput
-                label="Email"
-                fullWidth
-                value={currentStudent?.email || ""}
-                onChange={(e) => setCurrentStudent({ ...currentStudent, email: e.target.value })}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <MDInput
-                label="Mobile"
-                fullWidth
-                value={currentStudent?.mobile || ""}
-                onChange={(e) => setCurrentStudent({ ...currentStudent, mobile: e.target.value })}
-              />
-            </Grid>
-            <Grid item xs={12} display="flex" justifyContent="flex-end" gap={2}>
-              <MDButton color="secondary" onClick={handleClose}>
-                Cancel
-              </MDButton>
-              <MDButton color="info" variant="gradient" onClick={handleUpdate}>
-                Save Changes
-              </MDButton>
-            </Grid>
-          </Grid>
-        </MDBox>
-      </Dialog>
     </DashboardLayout>
   );
 }

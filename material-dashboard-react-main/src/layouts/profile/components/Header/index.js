@@ -35,11 +35,10 @@ import MDAvatar from "components/MDAvatar";
 import breakpoints from "assets/theme/base/breakpoints";
 
 // Images
-import Zulkiflipic from "assets/images/Zulkifli Image.jpeg";
-import Azimpic from "assets/images/Azim Image.jpeg";
+import burceMars from "assets/images/bruce-mars.jpg";
 import backgroundImage from "assets/images/bg-profile.jpeg";
 
-function Header({ profile1, profile2 }) {
+function Header({ children }) {
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
 
@@ -96,7 +95,7 @@ function Header({ profile1, profile2 }) {
       >
         <Grid container spacing={3} alignItems="center">
           <Grid item>
-            <MDAvatar src={Zulkiflipic} alt="profile-image" size="xl" shadow="sm" />
+            <MDAvatar src={burceMars} alt="profile-image" size="xl" shadow="sm" />
           </Grid>
           <Grid item>
             <MDBox height="100%" mt={0.5} lineHeight={1}>
@@ -109,7 +108,7 @@ function Header({ profile1, profile2 }) {
             </MDBox>
           </Grid>
         </Grid>
-        {profile1}
+        {children}
       </Card>
       <MDBox
         display="flex"
@@ -129,7 +128,7 @@ function Header({ profile1, profile2 }) {
       >
         <Grid container spacing={3} alignItems="center">
           <Grid item>
-            <MDAvatar src={Azimpic} alt="profile-image" size="xl" shadow="sm" />
+            <MDAvatar src={burceMars} alt="profile-image" size="xl" shadow="sm" />
           </Grid>
           <Grid item>
             <MDBox height="100%" mt={0.5} lineHeight={1}>
@@ -142,7 +141,7 @@ function Header({ profile1, profile2 }) {
             </MDBox>
           </Grid>
         </Grid>
-        {profile2}
+        {children}
       </Card>
     </MDBox>
   );
@@ -150,14 +149,12 @@ function Header({ profile1, profile2 }) {
 
 // Setting default props for the Header
 Header.defaultProps = {
-  profile1: "",
-  profile2: "",
+  children: "",
 };
 
 // Typechecking props for the Header
 Header.propTypes = {
-  profile1: PropTypes.node,
-  profile2: PropTypes.node,
+  children: PropTypes.node,
 };
 
 export default Header;
